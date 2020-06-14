@@ -1,0 +1,53 @@
+{
+  "name": "jsonapi-builder",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rimraf ./dist",
+    "lint": "eslint ./src --ext .ts",
+    "pretest": "yarn lint",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomisiak/jsonapi-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tomisiak/jsonapi-builder/issues"
+  },
+  "homepage": "https://github.com/Tomisiak/jsonapi-builder",
+  "author": "Michał Tomsia <michal.tomsia.mt@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/jest": "^25.2.3",
+    "@types/lodash.isnil": "^4.0.6",
+    "@types/lodash.isstring": "^4.0.6",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.0.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "lodash.isnil": "^4.0.0",
+    "lodash.isstring": "^4.0.1"
+  }
+}

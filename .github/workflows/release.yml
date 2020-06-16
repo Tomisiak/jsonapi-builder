@@ -29,6 +29,8 @@ jobs:
       with: { name: dist, path: ./dist }
 
   github-release:
+    outputs:
+      release_sha: ${{ steps.release_sha.outputs.SHA }}
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -47,7 +49,7 @@ jobs:
     - name: Download built artifacts
       uses: actions/download-artifact@v1
       with: { name: dist, path: ./dist/ }
-    - name: Checkout Hash (Push Ability)
+    - name: Checkout Hack (Push Ability)
       run: |
         git config --global user.name "jsonapi-builder Automation"
         git config --global user.email "automation@jsonapi-builder.dev"
@@ -60,3 +62,38 @@ jobs:
       run: |
         yarn release:version
         git push --follow-tags
+    - name: Get SHA
+      id: release_sha
+      run: |
+        sha_new=$(git rev-parse HEAD)
+        echo "::set-output name=SHA::$sha_new"
+
+  npm-publish:
+    runs-on: ubuntu-latest
+    needs: github-release
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ needs.github-release.outputs.release_sha }}
+        fetch-depth: 0
+    - uses: actions/setup-node@v1
+      with: { node-version: 12 }
+    - name: Yarn cache
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/yarn
+        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+    - name: Download built artifacts
+      uses: actions/download-artifact@v1
+      with: { name: dist, path: ./dist/ }
+    - name: Create release & publish package
+      run: |
+        npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+        yarn publish --access public
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+

@@ -8,6 +8,7 @@
     "clean": "rimraf ./dist",
     "lint": "eslint ./src --ext .ts",
     "pretest": "yarn lint",
+    "release:version": "standard-version",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
@@ -43,6 +44,7 @@
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "rimraf": "^3.0.2",
+    "standard-version": "^8.0.0",
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.3"
   },

@@ -5,6 +5,7 @@ import { JsonApiLinksBuilder } from './jsonApiLinks.builder';
 import { JsonApiRelationship } from './jsonApiRelationship.interface';
 import { JsonApiRelationshipBuilder } from './jsonApiRelationship.builder';
 import { JsonApiResource, JsonApiResourceLinks } from './jsonApiResource.interface';
+import * as Util from './util.types';
 
 export class JsonApiResourceBuilder<T extends Partial<JsonApiResource> = {}> extends JsonApiIdentifierBuilder<T> {
   public withId<U extends string>(id: U): JsonApiResourceBuilder<T & { id: U }> {

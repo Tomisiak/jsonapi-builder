@@ -25,11 +25,10 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
   },
   "include": [
-    "./src/**/*",
-    "./types/global.d.ts"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",

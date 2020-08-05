@@ -120,4 +120,83 @@ describe('JsonApiResponse', () => {
       expect(result).toEqual(expected);
     });
   });
+
+  describe('#included field', () => {
+    test('creates valid response object', () => {
+      const expected = {
+        data: {
+          id: 'test_id',
+          type: 'test_type',
+          attributes: {
+            testAttr1: 'testAttr1_value',
+          },
+          relationships: {
+            testRelationship1: {
+              data: {
+                id: 'test_id_2',
+                type: 'test_type_2',
+              },
+            },
+            testRelationship2: {
+              data: {
+                id: 'test_id_3',
+                type: 'test_type_3',
+              },
+            },
+          }
+        },
+        included: [
+          {
+            id: 'test_id_2',
+            type: 'test_type_2',
+            attributes: {
+              testAttr2: 'testAttr2_value',
+            },
+          },
+          {
+            id: 'test_id_3',
+            type: 'test_type_3',
+            attributes: {
+              testAttr3: 'testAttr3_value',
+            },
+          },
+        ],
+      };
+
+      const relationship1Builder = new JsonApiResourceBuilder()
+        .withId('test_id_2')
+        .withType('test_type_2');
+      const relationship2Builder = new JsonApiResourceBuilder()
+        .withId('test_id_3')
+        .withType('test_type_3');
+
+      const result = new JsonApiResponseBuilder()
+        .withData(new JsonApiResourceBuilder()
+          .withId('test_id')
+          .withType('test_type')
+          .withAttributes({
+            testAttr1: 'testAttr1_value',
+          })
+          .relateTo('testRelationship1', b => b
+            .withData(relationship1Builder.build()))
+          .relateTo('testRelationship2', b => b
+            .withData(relationship2Builder.build()))
+          .build()
+        )
+        .withIncluded([
+          relationship1Builder
+            .withAttributes({
+              testAttr2: 'testAttr2_value',
+            })
+            .build(),
+          relationship2Builder
+            .withAttributes({
+              testAttr3: 'testAttr3_value',
+            })
+            .build(),
+        ])
+        .build();
+      expect(result).toEqual(expected);
+    });
+  });
 });

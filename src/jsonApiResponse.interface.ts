@@ -14,4 +14,5 @@ export interface JsonApiDataDocument {
 export type JsonApiResponse = JsonApiDataDocument & {
   links?: JsonApiResponseLinks;
   meta?: any;
+  included?: JsonApiResource[];
 }

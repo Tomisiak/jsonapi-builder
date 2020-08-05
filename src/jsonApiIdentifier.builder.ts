@@ -14,6 +14,6 @@ export class JsonApiIdentifierBuilder<T = {}> {
   }
 
   public  build(this: JsonApiIdentifierBuilder<JsonApiIdentifier>) {
-    return Object.assign({}, this.data) as unknown  as T;
+    return Object.assign({}, this.data) as unknown as T;
   }
 }
